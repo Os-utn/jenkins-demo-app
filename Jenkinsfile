@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        APP_NAME = "jenkins-demo-app"
+        APP_NAME = 'jenkins-demo-app'
     }
 
     options {
@@ -16,10 +16,9 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo "Clonando repositorio..."
+                echo 'Clonando repositorio...'
                 checkout scm
             }
         }
@@ -27,7 +26,7 @@ pipeline {
         stage('Instalar dependencias') {
             steps {
                 sh 'node -v'
-                echo "No hay dependencias externas en este demo"
+                echo 'No hay dependencias externas en este demo'
             }
         }
 
@@ -50,7 +49,7 @@ pipeline {
             }
             steps {
                 echo "Desplegando ${env.APP_NAME} en el entorno: ${params.ENTORNO}"
-                // Aquí iría el script real de despliegue (scp, kubectl, ansible, etc.)
+            // Aquí iría el script real de despliegue (scp, kubectl, ansible, etc.)
             }
         }
     }
@@ -58,14 +57,15 @@ pipeline {
     post {
         success {
             echo "✅ Pipeline completado correctamente para ${env.APP_NAME}"
+            mail to: 'osmarisrael2515@outlook.com',
+             subject: "Build OK: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+             body: "Pipeline completado: ${env.BUILD_URL}"
         }
         failure {
-            echo "❌ El pipeline falló. Revisa los logs de la etapa correspondiente."
-            // PASO 8 (reto): descomenta tras configurar SMTP en
-            // Manage Jenkins → System → Extended E-mail Notification
-            // mail to: 'tu_correo@ejemplo.com',
-            //      subject: "Build fallido: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            //      body: "Revisa la consola: ${env.BUILD_URL}"
+            echo '❌ El pipeline falló. Revisa los logs de la etapa correspondiente.'
+            mail to: 'osmarisrael2515@outlook.com',
+                  subject: "Build fallido: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                  body: "Revisa la consola: ${env.BUILD_URL}"
         }
         always {
             echo "Build #${env.BUILD_NUMBER} finalizado."
