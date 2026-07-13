@@ -1,0 +1,11 @@
+{
+  "name": "jenkins-demo-app",
+  "version": "1.0.0",
+  "description": "App de ejemplo para la práctica CI/CD con Jenkins",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/suma.test.js",
+    "build": "echo 'Build completado' && mkdir -p dist && cp index.js dist/"
+  },
+  "license": "MIT"
+}
